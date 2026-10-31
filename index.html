@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ali Oumar Goningar — Technicien IT, Graphiste & Développeur Web à N'Djamena. Infrastructure, production audiovisuelle, streaming, design graphique et sites web." />
+  <meta name="author" content="Ali Oumar Goningar" />
+  <title>Ali Oumar Goningar — Technicien IT, Graphiste & Développeur Web</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       🎨 VARIABLES
+       ============================================================ */
+    :root {
+      --bg:          #0a0a0f;
+      --bg-2:        #12121a;
+      --bg-card:     rgba(255, 255, 255, 0.04);
+      --border:      rgba(255, 255, 255, 0.08);
+      --text:        #e5e7eb;
+      --text-muted:  #9ca3af;
+      --accent-1:    #00d4ff;
+      --accent-2:    #7c3aed;
+      --gradient:    linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+      --radius:      16px;
+      --transition:  .3s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; line-height: 1.2; font-weight: 700; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 100px 0; position: relative; }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      text-align: center;
+      margin-bottom: 16px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 60px;
+      font-size: 1.05rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: .95rem;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--gradient);
+      color: #fff;
+      box-shadow: 0 8px 30px rgba(0, 212, 255, .25);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0, 212, 255, .4); }
+    .btn-outline {
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+    }
+    .btn-outline:hover { border-color: var(--accent-1); color: var(--accent-1); transform: translateY(-2px); }
+
+    /* ============================================================
+       HEADER / NAVIGATION
+       ============================================================ */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      transition: var(--transition);
+      background: transparent;
+    }
+    .header.scrolled {
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+    }
+    .header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .logo span { color: var(--text); font-size: .68rem; font-weight: 500; letter-spacing: 1.5px; }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: var(--transition);
+      position: relative;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent-1); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px; left: 0;
+      width: 0; height: 2px;
+      background: var(--gradient);
+      transition: var(--transition);
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      z-index: 1001;
+    }
+    .burger span {
+      width: 26px; height: 2px;
+      background: var(--text);
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0, 212, 255, .25) 0%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -20%; left: -10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124, 58, 237, .25) 0%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .hero-content { max-width: 850px; position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: .85rem;
+      color: var(--accent-1);
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+    }
+    .hero-badge::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent-1);
+      box-shadow: 0 0 12px var(--accent-1);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      font-weight: 800;
+    }
+    .hero h1 .highlight {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero .roles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .hero .role {
+      padding: 6px 14px;
+      background: rgba(0, 212, 255, .08);
+      border: 1px solid rgba(0, 212, 255, .25);
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--accent-1);
+    }
+    .hero .role:nth-child(2) {
+      background: rgba(124, 58, 237, .08);
+      border-color: rgba(124, 58, 237, .3);
+      color: #b794f6;
+    }
+    .hero .role:nth-child(3) {
+      background: rgba(16, 185, 129, .08);
+      border-color: rgba(16, 185, 129, .3);
+      color: #34d399;
+    }
+    .hero .subtitle {
+      font-size: clamp(.98rem, 1.8vw, 1.15rem);
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 680px;
+    }
+    .hero .cta-group { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       À PROPOS
+       ============================================================ */
+    .about-content {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .about-content p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-size: 1.02rem;
+      line-height: 1.75;
+    }
+    .about-content strong { color: var(--text); font-weight: 600; }
+
+    .about-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      transition: var(--transition);
+    }
+    .info-card:hover { border-color: rgba(0, 212, 255, .4); transform: translateY(-2px); }
+    .info-card-label {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-1);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .info-card-value { font-size: .95rem; font-weight: 500; }
+
+    /* ============================================================
+       COMPÉTENCES
+       ============================================================ */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 212, 255, .08), rgba(124, 58, 237, .08));
+      opacity: 0;
+      transition: var(--transition);
+    }
+    .skill-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0, 212, 255, .4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, .3);
+    }
+    .skill-card:hover::before { opacity: 1; }
+    .skill-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: var(--gradient);
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .skill-icon svg { width: 26px; height: 26px; stroke: #fff; fill: none; stroke-width: 2; }
+    .skill-card h3 { font-size: 1.15rem; margin-bottom: 10px; position: relative; z-index: 1; }
+    .skill-card .skill-desc {
+      color: var(--text-muted);
+      font-size: .88rem;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; position: relative; z-index: 1; }
+    .skill-tag {
+      padding: 4px 10px;
+      background: rgba(0, 212, 255, .1);
+      border: 1px solid rgba(0, 212, 255, .2);
+      border-radius: 999px;
+      font-size: .74rem;
+      color: var(--accent-1);
+    }
+
+    /* ============================================================
+       🎞️ TABLE DE MONTAGE
+       ============================================================ */
+    .timeline {
+      margin-top: 60px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px 24px;
+      overflow: hidden;
+      position: relative;
+    }
+    .timeline-caption {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: .88rem;
+      margin-top: 20px;
+    }
+    .timeline-caption strong { color: var(--accent-1); font-weight: 600; }
+    .timeline-body { position: relative; display: flex; flex-direction: column; gap: 8px; }
+    .ruler {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0 12px 64px;
+      font-size: .7rem;
+      color: var(--text-muted);
+      font-family: 'Courier New', monospace;
+      border-bottom: 1px dashed var(--border);
+      margin-bottom: 10px;
+      letter-spacing: .5px;
+    }
+    .track { display: flex; align-items: center; gap: 12px; height: 44px; }
+    .track-name {
+      width: 52px;
+      flex-shrink: 0;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-align: center;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 0;
+      font-family: 'Courier New', monospace;
+      letter-spacing: .5px;
+    }
+    .lane {
+      position: relative;
+      flex: 1;
+      height: 100%;
+      background: rgba(255, 255, 255, .02);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .clip {
+      position: absolute;
+      top: 4px; bottom: 4px;
+      left: calc(var(--s) * 1%);
+      width: calc(var(--l) * 1%);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      font-size: .7rem;
+      font-weight: 500;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: transform .2s ease, filter .2s ease;
+    }
+    .clip:hover { filter: brightness(1.18); transform: translateY(-1px); z-index: 2; }
+    .clip-video {
+      background: linear-gradient(90deg, rgba(0, 212, 255, .75), rgba(0, 160, 200, .55));
+      border: 1px solid rgba(0, 212, 255, .65);
+    }
+    .clip-audio {
+      background: linear-gradient(90deg, rgba(124, 58, 237, .75), rgba(100, 40, 200, .55));
+      border: 1px solid rgba(124, 58, 237, .65);
+    }
+    .clip-live {
+      background: linear-gradient(90deg, rgba(239, 68, 68, .75), rgba(200, 40, 40, .55));
+      border: 1px solid rgba(239, 68, 68, .65);
+    }
+    .playhead {
+      position: absolute;
+      top: 34px; bottom: 0;
+      left: 64px;
+      width: 2px;
+      background: var(--accent-1);
+      box-shadow: 0 0 14px var(--accent-1), 0 0 4px var(--accent-1);
+      animation: playheadSweep 2.8s cubic-bezier(.4, 0, .2, 1) 1 forwards;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .playhead::before {
+      content: '';
+      position: absolute;
+      top: -6px; left: -5px;
+      width: 12px; height: 12px;
+      background: var(--accent-1);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--accent-1);
+    }
+    @keyframes playheadSweep {
+      from { left: 64px; }
+      to   { left: calc(100% - 26px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .playhead { animation: none; left: 50%; }
+    }
+    @media (max-width: 480px) {
+      .timeline { padding: 20px 14px; }
+      .track-name { width: 40px; font-size: .65rem; }
+      .ruler { padding-left: 52px; }
+      .playhead { left: 52px; }
+      @keyframes playheadSweep {
+        from { left: 52px; }
+        to   { left: calc(100% - 20px); }
+      }
+      .clip { font-size: .62rem; padding: 0 6px; }
+    }
+
+    /* ============================================================
+       EXPÉRIENCES
+       ============================================================ */
+    .experience-list {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .experience-list::before {
+      content: '';
+      position: absolute;
+      left: 20px; top: 12px; bottom: 12px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-1), var(--accent-2));
+      opacity: .4;
+    }
+    .exp-item {
+      position: relative;
+      padding-left: 60px;
+      padding-bottom: 40px;
+    }
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: 12px; top: 6px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--accent-1);
+      box-shadow: 0 0 12px rgba(0, 212, 255, .5);
+    }
+    .exp-item:last-child { padding-bottom: 0; }
+    .exp-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .exp-header h3 { font-size: 1.15rem; }
+    .exp-company {
+      padding: 3px 12px;
+      background: rgba(124, 58, 237, .15);
+      border: 1px solid rgba(124, 58, 237, .3);
+      border-radius: 999px;
+      font-size: .78rem;
+      color: #b794f6;
+      font-weight: 500;
+    }
+    .exp-missions {
+      list-style: none;
+      color: var(--text-muted);
+      font-size: .92rem;
+    }
+    .exp-missions li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 6px;
+    }
+    .exp-missions li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent-1);
+    }
+
+    /* ============================================================
+       PORTFOLIO / RÉALISATIONS
+       ============================================================ */
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+    .filter-btn {
+      padding: 10px 22px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      border-radius: 999px;
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+    .filter-btn:hover { color: var(--text); border-color: rgba(0, 212, 255, .4); }
+    .filter-btn.active {
+      background: var(--gradient);
+      color: #fff;
+      border-color: transparent;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .portfolio-item {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      animation: fadeUp .5s ease forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .portfolio-item:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0, 212, 255, .4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+    }
+    .portfolio-item.hide { display: none; }
+    .portfolio-media {
+      aspect-ratio: 16/10;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+    }
+    .portfolio-media img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+    .portfolio-item:hover .portfolio-media img { transform: scale(1.08); }
+    .portfolio-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,15,.95), transparent 60%);
+      opacity: 0;
+      transition: var(--transition);
+      display: grid;
+      place-items: center;
+    }
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-overlay .view-btn {
+      padding: 12px 24px;
+      background: var(--gradient);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: .88rem;
+      transform: translateY(10px);
+      transition: var(--transition);
+    }
+    .portfolio-item:hover .portfolio-overlay .view-btn { transform: translateY(0); }
+    .portfolio-info { padding: 20px; }
+    .portfolio-info h3 { font-size: 1.05rem; margin-bottom: 6px; }
+    .portfolio-info p { color: var(--text-muted); font-size: .86rem; margin-bottom: 12px; }
+    .portfolio-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .portfolio-tags span {
+      padding: 3px 10px;
+      background: rgba(124, 58, 237, .15);
+      border-radius: 999px;
+      font-size: .72rem;
+      color: #b794f6;
+    }
+
+    /* ============================================================
+       LIGHTBOX (CORRIGÉE POUR LES IMAGES)
+       ============================================================ */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .92);
+      backdrop-filter: blur(12px);
+      z-index: 2000;
+      display: none;
+      place-items: center;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .lightbox.open { display: grid; opacity: 1; }
+    .lightbox-content {
+      max-width: 900px;
+      width: 100%;
+      background: var(--bg-2);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transform: scale(.9);
+      transition: transform .3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .lightbox.open .lightbox-content { transform: scale(1); }
+    
+    /* L'image prend ses proportions naturelles sans déborder */
+    .lightbox-media {
+      background: #0d0d15; 
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      max-height: 70vh; 
+    }
+    .lightbox-media img { 
+      max-width: 100%; 
+      max-height: 70vh; 
+      width: auto; 
+      height: auto; 
+      object-fit: contain; 
+      display: block;
+    }
+    /* La vidéo garde son format 16/9 */
+    .lightbox-media iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9; 
+      border: none;
+      display: block;
+    }
+    
+    .lightbox-info { padding: 28px; }
+    .lightbox-info h3 { font-size: 1.4rem; margin-bottom: 8px; }
+    .lightbox-info p { color: var(--text-muted); margin-bottom: 16px; }
+    .lightbox-close {
+      position: absolute;
+      top: 24px; right: 24px;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.1);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      color: var(--text);
+      transition: var(--transition);
+      z-index: 10;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,.2); transform: rotate(90deg); }
+
+    /* ============================================================
+       CRÉATION GRAPHIQUE
+       ============================================================ */
+    .graphisme-category {
+      margin-bottom: 50px;
+    }
+    .graphisme-category h3 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      padding-left: 14px;
+      border-left: 3px solid var(--accent-1);
+    }
+    .graphisme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .graphisme-item {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 16px;                          
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .graphisme-item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 212, 255, .5);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, .4);
+      background: rgba(0, 212, 255, 0.04);
+    }
+    .graphisme-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;                    
+      transition: transform .5s ease;
+      border-radius: 6px;
+    }
+    .graphisme-item:hover img { transform: scale(1.05); }
+
+    /* ============================================================
+       FORMATIONS
+       ============================================================ */
+    .formations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .formation-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: var(--transition);
+    }
+    .formation-card:hover {
+      border-color: rgba(0, 212, 255, .4);
+      transform: translateY(-4px);
+    }
+    .formation-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--gradient);
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+    }
+    .formation-icon svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2; }
+    .formation-card h3 { font-size: 1.05rem; margin-bottom: 8px; }
+    .formation-card p { color: var(--text-muted); font-size: .9rem; }
+    .formation-card .formation-badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 12px;
+      background: rgba(0, 212, 255, .1);
+      border: 1px solid rgba(0, 212, 255, .25);
+      border-radius: 999px;
+      font-size: .75rem;
+      color: var(--accent-1);
+    }
+
+    /* ============================================================
+       CONTACT
+       ============================================================ */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .contact-info h3 { font-size: 1.4rem; margin-bottom: 12px; }
+    .contact-info > p { color: var(--text-muted); margin-bottom: 28px; }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: var(--transition);
+    }
+    .contact-item:hover { border-color: rgba(0, 212, 255, .4); }
+    .contact-item-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--gradient);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .contact-item-icon svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
+    .contact-item strong { display: block; font-size: .9rem; }
+    .contact-item small { color: var(--text-muted); font-size: .8rem; }
+    .contact-item small a { color: var(--accent-1); }
+    .contact-item small a:hover { text-decoration: underline; }
+
+    .contact-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: .85rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: .92rem;
+      transition: var(--transition);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, .15);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-message { margin-top: 12px; font-size: .88rem; display: none; }
+    .form-message.success { display: block; color: #10b981; }
+    .form-message.error { display: block; color: #ef4444; }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      padding: 40px 0 24px;
+      text-align: center;
+    }
+    .footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .footer-socials a {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      transition: var(--transition);
+    }
+    .footer-socials a:hover { border-color: var(--accent-1); transform: translateY(-3px); }
+    .footer-socials svg { width: 20px; height: 20px; stroke: var(--text); fill: none; stroke-width: 2; }
+    .footer p { color: var(--text-muted); font-size: .85rem; }
+    .back-to-top {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: var(--gradient);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 24px rgba(0, 212, 255, .3);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 500;
+    }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+    .back-to-top:hover { transform: translateY(-3px); }
+    .back-to-top svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2.5; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 0; right: 0;
+        width: 80%;
+        max-width: 320px;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+        background: rgba(10, 10, 15, .98);
+        backdrop-filter: blur(20px);
+        border-left: 1px solid var(--border);
+        transform: translateX(100%);
+        transition: transform .4s ease;
+        z-index: 999;
+      }
+      .nav-links.open { transform: translateX(0); }
+      .nav-links a { font-size: 1.05rem; }
+      .burger { display: flex; }
+      .section { padding: 70px 0; }
+      .hero { padding-top: 100px; }
+      .contact-form { padding: 24px; }
+      .graphisme-item { padding: 12px; }
+    }
+    @media (max-width: 480px) {
+      .hero .cta-group { flex-direction: column; }
+      .hero .cta-group .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔝 HEADER -->
+  <header class="header" id="header">
+    <div class="container">
+      <a href="#accueil" class="logo">&lt;/&gt; Ali O. Goningar <span>TIC</span></a>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#accueil" class="active">Accueil</a></li>
+          <li><a href="#apropos">À propos</a></li>
+          <li><a href="#competences">Compétences</a></li>
+          <li><a href="#experiences">Expériences</a></li>
+          <li><a href="#realisations">Réalisations</a></li>
+          <li><a href="#graphisme">Graphisme</a></li>
+          <li><a href="#formations">Formations</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="burger" id="burger" aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 🚀 HERO -->
+  <section class="hero" id="accueil">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">Disponible pour missions — N'Djamena, Tchad</div>
+        <h1>
+          L'infrastructure IT au service de la <span class="highlight">production audiovisuelle</span> et du streaming
+        </h1>
+        <div class="roles">
+          <span class="role">🖥️ Technicien IT</span>
+          <span class="role">🎨 Graphiste</span>
+          <span class="role">💻 Développeur Web</span>
+        </div>
+        <p class="subtitle">
+          Je relie les réseaux, les serveurs de montage, la régie et la diffusion en direct.
+          Je conçois aussi les visuels graphiques et les sites web qui les accompagnent.
+        </p>
+        <div class="cta-group">
+          <a href="#realisations" class="btn btn-primary">
+            Découvrir mes réalisations
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="#contact" class="btn btn-outline">Me contacter</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 👤 À PROPOS -->
+  <section class="section" id="apropos">
+    <div class="container">
+      <h2 class="section-title fade-in">À propos</h2>
+      <p class="section-subtitle fade-in">Technicien IT, graphiste &amp; développeur web — un profil complet</p>
+
+      <div class="about-content fade-in">
+        <p>
+          Je suis <strong>Ali Oumar Goningar</strong>, technicien IT avec une dimension de
+          responsable technique, spécialisé en <strong>réseaux, production et streaming</strong>.
+          Je suis également <strong>graphiste</strong> et <strong>développeur web</strong> :
+          je conçois des identités visuelles et des supports graphiques, et je développe des sites web.
+          En plus de 3 ans, j'ai travaillé sur les infrastructures et la production audiovisuelle de
+          <strong>Chif TV</strong>, de <strong>Lac Info</strong> et de l'<strong>ONAMA</strong>.
+        </p>
+        <p>
+          Mon atout : <strong>je comprends les deux côtés de l'écran</strong>. Je gère les équipements
+          de studio (régie, caméras, postes de montage), je réalise des montages de contenus vidéo et
+          leur encodage, et je garantis derrière la solidité du réseau et des serveurs qui les portent.
+        </p>
+        <p>
+          Cette base vient d'une formation d'<strong>ingénieur en réseaux et systèmes (Bac+5)</strong>,
+          que je mets au service des équipes de production et de rédaction.
+        </p>
+
+        <div class="about-info-grid">
+          <div class="info-card">
+            <div class="info-card-label">Expérience</div>
+            <div class="info-card-value">Plus de 3 ans en infrastructures, production audiovisuelle et streaming</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Spécialités</div>
+            <div class="info-card-value">Montage vidéo, encodage, régie, streaming, réseaux, serveurs, design graphique, développement web</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Formation</div>
+            <div class="info-card-value">Master 2 Réseaux et Télécommunications</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Basé à</div>
+            <div class="info-card-value">N'Djamena, Tchad</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🎯 COMPÉTENCES -->
+  <section class="section" id="competences" style="background: var(--bg-2);">
+    <div class="container">
+      <h2 class="section-title fade-in">Compétences</h2>
+      <p class="section-subtitle fade-in">Du poste de montage au serveur, du visuel au site web : la chaîne complète.</p>
+
+      <div class="skills-grid">
+        <article class="skill-card fade-in">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Production, montage &amp; streaming</h3>
+          <p class="skill-desc">Mon cœur de métier : fabriquer, encoder et diffuser des contenus vidéo.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">DaVinci Resolve</span>
+            <span class="skill-tag">OBS Studio</span>
+            <span class="skill-tag">Audacity</span>
+            <span class="skill-tag">PC montage</span>
+            <span class="skill-tag">Régie</span>
+            <span class="skill-tag">Caméras</span>
+          </div>
+        </article>
+
+        <article class="skill-card fade-in">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+          </div>
+          <h3>Infrastructures, réseaux &amp; serveurs</h3>
+          <p class="skill-desc">La solidité derrière l'image : réseaux, serveurs et supervision.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">LAN / WAN</span>
+            <span class="skill-tag">Windows</span>
+            <span class="skill-tag">Linux</span>
+            <span class="skill-tag">Synology</span>
+            <span class="skill-tag">Zabbix</span>
+            <span class="skill-tag">Cloud</span>
+          </div>
+        </article>
+
+        <article class="skill-card fade-in">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M17 6.5h3M4 12h3M3 20l4-8 4 8M13 20l4-8 4 8"/></svg>
+          </div>
+          <h3>Graphisme</h3>
+          <p class="skill-desc">Identités visuelles et supports de communication percutants.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Logos</span>
+            <span class="skill-tag">Affiches</span>
+            <span class="skill-tag">Visuels Facebook</span>
+            <span class="skill-tag">Génériques &amp; intros</span>
+          </div>
+        </article>
+
+        <article class="skill-card fade-in">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3>Développement web</h3>
+          <p class="skill-desc">Sites web, intégration responsive et administration serveur.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">HTML</span>
+            <span class="skill-tag">CSS</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">CMS</span>
+            <span class="skill-tag">Serveurs web</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- 🎞️ TABLE DE MONTAGE ANIMÉE -->
+      <figure class="timeline fade-in" aria-label="Schéma d'une table de montage">
+        <div class="timeline-body" aria-hidden="true">
+          <div class="ruler">
+            <span>00:00</span><span>00:30</span><span>01:00</span><span>01:30</span><span>02:00</span>
+          </div>
+          <div class="track">
+            <span class="track-name">V2</span>
+            <div class="lane">
+              <span class="clip clip-video" style="--s:6;--l:22">Habillage</span>
+              <span class="clip clip-video" style="--s:40;--l:24">Titrage JT</span>
+            </div>
+          </div>
+          <div class="track">
+            <span class="track-name">V1</span>
+            <div class="lane">
+              <span class="clip clip-video" style="--s:0;--l:20">Rushes</span>
+              <span class="clip clip-video" style="--s:22;--l:36">Montage DaVinci Resolve</span>
+              <span class="clip clip-video" style="--s:60;--l:30">Encodage</span>
+            </div>
+          </div>
+          <div class="track">
+            <span class="track-name">A1</span>
+            <div class="lane">
+              <span class="clip clip-audio" style="--s:8;--l:32">Voix off</span>
+              <span class="clip clip-audio" style="--s:44;--l:34">Interview, Audacity</span>
+            </div>
+          </div>
+          <div class="track">
+            <span class="track-name">A2</span>
+            <div class="lane">
+              <span class="clip clip-audio" style="--s:0;--l:96">Ambiance et mixage</span>
+            </div>
+          </div>
+          <div class="track">
+            <span class="track-name">Live</span>
+            <div class="lane">
+              <span class="clip clip-live" style="--s:30;--l:70">Flux en direct OBS Studio</span>
+            </div>
+          </div>
+          <div class="playhead"></div>
+        </div>
+        <figcaption class="timeline-caption">
+          Mon <strong>workflow</strong> type : rushes → montage (DaVinci Resolve) → habillage &amp; titrage →
+          mixage (Audacity) → encodage — avec flux live via <strong>OBS Studio</strong>.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 💼 EXPÉRIENCES -->
+  <section class="section" id="experiences">
+    <div class="container">
+      <h2 class="section-title fade-in">Expériences clés</h2>
+      <p class="section-subtitle fade-in">Plus de 3 ans sur le terrain de la production et de l'IT</p>
+
+      <div class="experience-list fade-in">
+        <div class="exp-item">
+          <div class="exp-header">
+            <h3>Technicien IT</h3>
+            <span class="exp-company">Chif TV</span>
+          </div>
+          <ul class="exp-missions">
+            <li>Administration des serveurs de montage et de diffusion</li>
+            <li>Support technique aux équipes de production</li>
+            <li>Maintenance de la régie et des caméras</li>
+          </ul>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <h3>Technicien vidéo &amp; webmaster</h3>
+            <span class="exp-company">Lac Info</span>
+          </div>
+          <ul class="exp-missions">
+            <li>Montage et encodage de contenus vidéo</li>
+            <li>Support technique à la rédaction</li>
+            <li>Publication et gestion des contenus sur le site web</li>
+          </ul>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <h3>Stagiaire IT</h3>
+            <span class="exp-company">ONAMA</span>
+          </div>
+          <ul class="exp-missions">
+            <li>Analyse de contenus audiovisuels</li>
+            <li>Appui à l'enregistrement d'émissions</li>
+            <li>Configuration de matériels de diffusion</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🖼️ RÉALISATIONS / PORTFOLIO (REGROUPÉES PAR THÈMES) -->
+  <section class="section" id="realisations" style="background: var(--bg-2);">
+    <div class="container">
+      <h2 class="section-title fade-in">Réalisations</h2>
+      <p class="section-subtitle fade-in">Une sélection de projets en production, IT, graphisme et web</p>
+
+      <div class="filters fade-in">
+        <button class="filter-btn active" data-filter="all">Tout</button>
+        <button class="filter-btn" data-filter="video">🎬 Vidéo</button>
+        <button class="filter-btn" data-filter="it">🖥️ IT</button>
+        <button class="filter-btn" data-filter="graphisme">🎨 Graphisme</button>
+        <button class="filter-btn" data-filter="web">💻 Web</button>
+      </div>
+
+      <div class="portfolio-grid" id="portfolioGrid">
+
+        <!-- ==========================================
+             GROUPE 1 : HABILLAGES & GÉNÉRIQUES (INTROS)
+             ========================================== -->
+        
+        <!-- Bande Annonce Chif TV -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Bande Annonce — Retour Chif TV"
+          data-desc="Bande-annonce promotionnelle annonçant le retour de Chif TV — montage, habillage et mixage audio."
+          data-video-type="youtube"
+          data-video-id="NjBcbnOuGl0"
+          data-image="https://img.youtube.com/vi/NjBcbnOuGl0/hqdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/NjBcbnOuGl0/hqdefault.jpg" alt="Bande Annonce — Retour Chif TV" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Bande Annonce — Retour Chif TV</h3>
+            <p>Bande-annonce promotionnelle · montage &amp; habillage</p>
+            <div class="portfolio-tags"><span>#Premiere</span><span>#AfterEffect</span><span>#BandeAnnonce</span></div>
+          </div>
+        </article>
+
+        <!-- Interlude publicitaire -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Interlude publicitaire — Chif TV"
+          data-desc="Interlude de transition pour la régie publicitaire de Chif TV — animation, habillage et sonorisation, pensé pour enchaîner proprement contenus et publicités."
+          data-video-type="youtube"
+          data-video-id="DP_F9nVQx3s"
+          data-image="https://img.youtube.com/vi/DP_F9nVQx3s/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/DP_F9nVQx3s/maxresdefault.jpg" alt="Interlude publicitaire Chif TV" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Interlude publicitaire — Chif TV</h3>
+            <p>Interlude de transition · animation &amp; habillage</p>
+            <div class="portfolio-tags"><span>#Interlude</span><span>#Publicité</span><span>#ChifTV</span></div>
+          </div>
+        </article>
+
+        <!-- Générique logo Chif TV -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Générique logo — Chif TV"
+          data-desc="Animation du logo Chif TV — construction graphique, révélation du sigle et sonorisation, calibrée pour ouvrir et clore les programmes de la chaîne."
+          data-video-type="youtube"
+          data-video-id="rUt3XwI4McQ"
+          data-image="https://img.youtube.com/vi/rUt3XwI4McQ/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/rUt3XwI4McQ/maxresdefault.jpg" alt="Générique logo Chif TV" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Générique logo — Chif TV</h3>
+            <p>Animation logo · motion design &amp; habillage TV</p>
+            <div class="portfolio-tags"><span>#Générique</span><span>#LogoAnimé</span><span>#ChifTV</span></div>
+          </div>
+        </article>
+
+        <!-- Intro Amali -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Intro émission &quot;Amali&quot; — Découverte des métiers"
+          data-desc="Générique d'ouverture de l'émission &quot;Amali&quot; — une intro pensée pour introduire chaque épisode consacré à la découverte des métiers."
+          data-video-type="youtube"
+          data-video-id="Cqyf8MyDQv8"
+          data-image="https://img.youtube.com/vi/Cqyf8MyDQv8/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/Cqyf8MyDQv8/maxresdefault.jpg" alt="Intro émission Amali" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Intro émission "Amali"</h3>
+            <p>Générique d'ouverture · habillage &amp; motion design</p>
+            <div class="portfolio-tags"><span>#Intro</span><span>#Générique</span><span>#Amali</span></div>
+          </div>
+        </article>
+
+        <!-- Intro Ramadan -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Intro Ramadan — Chif TV"
+          data-desc="Intro spéciale diffusée sur Chif TV pendant le mois de Ramadan — un habillage saisonnier."
+          data-video-type="youtube"
+          data-video-id="kmknvv44X_4"
+          data-image="https://img.youtube.com/vi/kmknvv44X_4/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/kmknvv44X_4/maxresdefault.jpg" alt="Intro Ramadan Chif TV" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Intro Ramadan — Chif TV</h3>
+            <p>Habillage saisonnier · Ramadan &amp; identité TV</p>
+            <div class="portfolio-tags"><span>#Ramadan</span><span>#Intro</span><span>#ChifTV</span></div>
+          </div>
+        </article>
+
+        <!-- Intro Carême 40 jours -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Intro émission Carême — 40 jours"
+          data-desc="Générique d'ouverture pour une émission consacrée au Carême — 40 jours de préparation spirituelle."
+          data-video-type="youtube"
+          data-video-id="AuNUjli8_ZU"
+          data-image="https://img.youtube.com/vi/AuNUjli8_ZU/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/AuNUjli8_ZU/maxresdefault.jpg" alt="Intro Carême 40 jours" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Intro émission Carême — 40 jours</h3>
+            <p>Générique saisonnier · temps liturgique</p>
+            <div class="portfolio-tags"><span>#Carême</span><span>#Intro</span><span>#Générique</span></div>
+          </div>
+        </article>
+
+        <!-- Intro Will Actu -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Intro « Will Actu » — Chif TV"
+          data-desc="Générique d'ouverture de « Will Actu », le rendez-vous d'actualité de Chif TV."
+          data-video-type="youtube"
+          data-video-id="ns5liPb_WUk"
+          data-image="https://img.youtube.com/vi/ns5liPb_WUk/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/ns5liPb_WUk/maxresdefault.jpg" alt="Intro Will Actu" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Intro « Will Actu » — Chif TV</h3>
+            <p>Générique d'ouverture · émission d'actualité</p>
+            <div class="portfolio-tags"><span>#WillActu</span><span>#Intro</span><span>#ChifTV</span></div>
+          </div>
+        </article>
+
+        <!-- Générique reportage Chif TV -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Générique reportage — Chif TV"
+          data-desc="Générique d'ouverture utilisé pour les reportages de Chif TV — un habillage court et reconnaissable."
+          data-video-type="youtube"
+          data-video-id="hlCyjdNRvo4"
+          data-image="https://img.youtube.com/vi/hlCyjdNRvo4/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/hlCyjdNRvo4/maxresdefault.jpg" alt="Générique reportage Chif TV" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Générique reportage — Chif TV</h3>
+            <p>Ouverture de reportage · habillage &amp; motion design</p>
+            <div class="portfolio-tags"><span>#Générique</span><span>#Reportage</span><span>#ChifTV</span></div>
+          </div>
+        </article>
+
+        <!-- Intro reportage Lac Info -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Intro reportage — Journal Lac Info"
+          data-desc="Intro animée utilisée pour ouvrir les reportages du Journal de Lac Info — un habillage court et reconnaissable."
+          data-video-type="youtube"
+          data-video-id="R_2_iqKqnB4"
+          data-image="https://img.youtube.com/vi/R_2_iqKqnB4/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/R_2_iqKqnB4/maxresdefault.jpg" alt="Intro reportage Lac Info" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Intro reportage — Journal Lac Info</h3>
+            <p>Ouverture de reportage · habillage JT</p>
+            <div class="portfolio-tags"><span>#Intro</span><span>#Reportage</span><span>#LacInfo</span></div>
+          </div>
+        </article>
+
+        <!-- ==========================================
+             GROUPE 2 : DIVERTISSEMENT & MICRO-TROTTOIRS
+             ========================================== -->
+
+        <!-- Émission Ambiance (Ghiz_Beat) -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Émission Ambiance — Ça va Tuer ! (ft. Ghiz_Beat)"
+          data-desc="Habillage et montage pour l'émission musicale « Ambiance, Ça va Tuer ! ». Découverte du beatmaker Ghiz_Beat, mise en valeur de son univers et de son talent pour un rendu dynamique et rythmé."
+          data-video-type="youtube"
+          data-video-id="vFVk617zS9g"
+          data-image="https://img.youtube.com/vi/vFVk617zS9g/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/vFVk617zS9g/maxresdefault.jpg" alt="Émission Ambiance - Ghiz Beat" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Émission Ambiance — Ça va Tuer ! (ft. Ghiz_Beat)</h3>
+            <p>Émission musicale · découverte &amp; beatmaking</p>
+            <div class="portfolio-tags"><span>#Ambiance</span><span>#Beatmaking</span><span>#GhizBeat</span><span>#Montage</span><span>#Divertissement</span></div>
+          </div>
+        </article>
+
+        <!-- Émission Micro Libre -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Émission Micro Libre — Chants & Talents"
+          data-desc="Un format interactif et musical où le micro est ouvert au public. Les participants ont l'occasion de chanter, d'interpréter leurs morceaux préférés ou de dévoiler leurs propres talents. Montage, habillage et mixage audio pour un rendu fluide et divertissant."
+          data-video-type="youtube"
+          data-video-id="2AT_GJPb51Q"
+          data-image="https://img.youtube.com/vi/2AT_GJPb51Q/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/2AT_GJPb51Q/maxresdefault.jpg" alt="Émission Micro Libre - Chants et Talents" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Émission Micro Libre</h3>
+            <p>Format ouvert · musique, chants &amp; talents</p>
+            <div class="portfolio-tags"><span>#MicroLibre</span><span>#Musique</span><span>#Chant</span><span>#ChifTV</span><span>#Divertissement</span></div>
+          </div>
+        </article>
+
+        <!-- Micro-trottoir Rire & Blagues -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Micro-trottoir Chif TV — Rire & Blagues"
+          data-desc="Un format de micro-trottoir dynamique pour Chif TV axé sur l'humour et la complicité. À travers des questions/réponses et des blagues, ce contenu léger et interactif met en valeur la spontanéité du public et l'esprit divertissant de la chaîne."
+          data-video-type="youtube"
+          data-video-id="amAFcjEpEY4"
+          data-image="https://img.youtube.com/vi/amAFcjEpEY4/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/amAFcjEpEY4/maxresdefault.jpg" alt="Micro-trottoir Chif TV — Blagues et rires" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Micro-trottoir — Rire & Blagues</h3>
+            <p>Format court · questions/réponses &amp; humour</p>
+            <div class="portfolio-tags"><span>#MicroTrottoir</span><span>#Humour</span><span>#ChifTV</span><span>#Divertissement</span><span>#Blagues</span></div>
+          </div>
+        </article>
+
+        <!-- Micro Chif (Définition des sigles) -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Micro Chif — Définition des sigles (ONG, CNOU, BET, CEMAC)"
+          data-desc="Capsule vidéo de micro-trottoir réalisée pour Chif TV. Des élèves tentent de définir des sigles de la vie courante et institutionnelle (ONG, CNOU, BET, CEMAC). Un format interactif, spontané et pédagogique qui met en valeur la culture générale des jeunes."
+          data-video-type="youtube"
+          data-video-id="pU9fHuxLz98"
+          data-image="https://img.youtube.com/vi/pU9fHuxLz98/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/pU9fHuxLz98/maxresdefault.jpg" alt="Micro Chif - Définition des sigles par les élèves" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Micro Chif — Définition des sigles</h3>
+            <p>Micro-trottoir · éducation &amp; culture générale</p>
+            <div class="portfolio-tags"><span>#MicroChif</span><span>#ChifTV</span><span>#Éducation</span><span>#Sigles</span><span>#MicroTrottoir</span></div>
+          </div>
+        </article>
+
+        <!-- Micro-trottoir Dis-nous tout -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Micro-trottoir — Dis-nous tout"
+          data-desc="Format interactif donnant la parole au public. Des réactions à chaud, des avis spontanés et des moments de franche rigolade sur des sujets de société. Un montage dynamique et rythmé qui capte l'authenticité et la diversité des passants."
+          data-video-type="youtube"
+          data-video-id="DOPOQfXWn_Y"
+          data-image="https://img.youtube.com/vi/DOPOQfXWn_Y/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/DOPOQfXWn_Y/maxresdefault.jpg" alt="Micro-trottoir Dis-nous tout" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Micro-trottoir — Dis-nous tout</h3>
+            <p>Format interactif · réactions &amp; spontanéité</p>
+            <div class="portfolio-tags"><span>#MicroTrottoir</span><span>#DisNousTout</span><span>#Interview</span><span>#Société</span><span>#ChifTV</span></div>
+          </div>
+        </article>
+
+        <!-- Best of Micro Chif -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Best of — Micro Chif"
+          data-desc="Une compilation des meilleurs moments des micros-trottoirs de Chif TV. Le « Best of Micro Chif » met en avant les réactions les plus drôles, surprenantes et spontanées du public. Un condensé d'humour et de sincérité qui illustre la proximité de la chaîne avec son audience."
+          data-video-type="youtube"
+          data-video-id="uVabXcjMPZM"
+          data-image="https://img.youtube.com/vi/uVabXcjMPZM/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/uVabXcjMPZM/maxresdefault.jpg" alt="Best of Micro Chif" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Best of — Micro Chif</h3>
+            <p>Compilation · Micro-trottoir &amp; Divertissement</p>
+            <div class="portfolio-tags"><span>#MicroChif</span><span>#BestOf</span><span>#ChifTV</span><span>#Humour</span><span>#MicroTrottoir</span></div>
+          </div>
+        </article>
+
+        <!-- Bêtisier Chif TV -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Bêtisier — Chif TV"
+          data-desc="Compilation des moments les plus drôles et des erreurs de tournage survenues sur le plateau de Chif TV. Un montage rythmé et divertissant qui valorise l'envers du décor, la bonne humeur et l'ambiance de la chaîne."
+          data-video-type="youtube"
+          data-video-id="xm58eOsxd2k"
+          data-image="https://img.youtube.com/vi/xm58eOsxd2k/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/xm58eOsxd2k/maxresdefault.jpg" alt="Bêtisier Chif TV - Bloopers et fous rires" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Bêtisier — Chif TV</h3>
+            <p>Compilation de moments drôles · montage &amp; divertissement</p>
+            <div class="portfolio-tags"><span>#Bêtisier</span><span>#Bloopers</span><span>#Coulisses</span><span>#ChifTV</span><span>#Humour</span></div>
+          </div>
+        </article>
+
+        <!-- ==========================================
+             GROUPE 3 : REPORTAGES & JT
+             ========================================== -->
+
+        <!-- JT Actualités Tchadiennes et Internationales -->
+        <article class="portfolio-item" data-category="video"
+          data-title="JT — Actualités Tchadiennes et Internationales"
+          data-desc="Montage complet et habillage d'un Journal Télévisé. Traitement des sujets nationaux (Tchad) et internationaux, intégration des synthés, gestion des lancements plateau et mixage audio pour un rendu prêt à diffuser."
+          data-video-type="youtube"
+          data-video-id="Il35H66mNAs"
+          data-image="https://img.youtube.com/vi/Il35H66mNAs/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/Il35H66mNAs/maxresdefault.jpg" alt="Journal Télévisé — Actualités Tchadiennes et Internationales" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>JT — Actualités Tchadiennes et Internationales</h3>
+            <p>Montage JT · habillage, titrage &amp; mixage</p>
+            <div class="portfolio-tags"><span>#JT</span><span>#Actualités</span><span>#Montage</span><span>#ChifTV</span><span>#International</span></div>
+          </div>
+        </article>
+
+        <!-- Will Actu Starlink -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Will Actu — Starlink au Tchad : un soulagement ?"
+          data-desc="Épisode de l'émission « Will Actu » consacré à l'arrivée de Starlink au Tchad. Une analyse des enjeux, des opportunités et des défis de la connectivité internet haut débit par satellite pour le pays. Un décryptage technique et sociétal pour comprendre l'impact réel sur les utilisateurs."
+          data-video-type="youtube"
+          data-video-id="HKhBS6FcT4Y"
+          data-image="https://img.youtube.com/vi/HKhBS6FcT4Y/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/HKhBS6FcT4Y/maxresdefault.jpg" alt="Will Actu - Starlink au Tchad" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Will Actu — Starlink au Tchad</h3>
+            <p>Émission d'actualité · Tech, Connectivité &amp; Société</p>
+            <div class="portfolio-tags"><span>#WillActu</span><span>#Starlink</span><span>#Tchad</span><span>#Connectivité</span><span>#ChifTV</span></div>
+          </div>
+        </article>
+
+        <!-- Reportage Élèves en vacances -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Reportage — Élèves en vacances"
+          data-desc="Un reportage immersif au cœur des vacances scolaires. Entre repos bien mérité, activités extrascolaires, petits jobs et préparation de la rentrée, découvrez comment les élèves tchadiens occupent leur temps libre et vivent cette période charnière de l'année."
+          data-video-type="youtube"
+          data-video-id="RviNRzAma30"
+          data-image="https://img.youtube.com/vi/RviNRzAma30/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/RviNRzAma30/maxresdefault.jpg" alt="Reportage Élèves en vacances" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Reportage — Élèves en vacances</h3>
+            <p>Reportage société · Éducation &amp; Jeunesse</p>
+            <div class="portfolio-tags"><span>#Reportage</span><span>#Jeunesse</span><span>#Éducation</span><span>#Vacances</span><span>#ChifTV</span></div>
+          </div>
+        </article>
+
+        <!-- Inauguration Stade Idriss Déby Itno -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Inauguration du Stade Idriss Déby Itno"
+          data-desc="Retour en images sur l'inauguration du Stade Idriss Déby Itno à N'Djamena. Le 17 mai, le Tchad a dévoilé une enceinte sportive de 30 000 places en hommage au Maréchal Idriss Déby Itno. Un moment fort pour le sport et la fierté nationale."
+          data-video-type="youtube"
+          data-video-id="h6Ebxq2iGQw"
+          data-image="https://img.youtube.com/vi/h6Ebxq2iGQw/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/h6Ebxq2iGQw/maxresdefault.jpg" alt="Inauguration du Stade Idriss Déby Itno" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Inauguration du Stade Idriss Déby Itno</h3>
+            <p>Reportage événementiel · Sport &amp; Fierté nationale</p>
+            <div class="portfolio-tags"><span>#Sport</span><span>#Tchad</span><span>#N'Djamena</span><span>#StadeIdrissDeby</span><span>#ChifTV</span></div>
+          </div>
+        </article>
+
+        <!-- Cérémonie 35e Journée de la Liberté -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Cérémonie de prise d'armes — 35ᵉ Journée de la Liberté"
+          data-desc="Retour en images sur la cérémonie de prise d'armes marquant la 35ᵉ Journée de la Liberté et de la Démocratie, présidée par le Chef de l'État, le Maréchal Mahamat Idriss Deby Itno. Un montage rythmé et solennel pour retranscrire l'ampleur de l'événement."
+          data-video-type="youtube"
+          data-video-id="CmH6DxD73To"
+          data-image="https://img.youtube.com/vi/CmH6DxD73To/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/CmH6DxD73To/maxresdefault.jpg" alt="Cérémonie 35e Journée de la Liberté et de la Démocratie" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Cérémonie de prise d'armes — 35ᵉ Journée de la Liberté</h3>
+            <p>Reportage événementiel · protocole d'État</p>
+            <div class="portfolio-tags"><span>#Reportage</span><span>#Tchad</span><span>#ChifTV</span><span>#Cérémonie</span><span>#Actualité</span></div>
+          </div>
+        </article>
+
+        <!-- Flash Info 45s -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Flash Info 45s — Format carré"
+          data-desc="Flash info express de 45 secondes conçu en format carré (1:1) pour les réseaux sociaux. Un condensé d'actualité rythmé, optimisé pour une lecture mobile et une diffusion sur Facebook, Instagram et TikTok."
+          data-video-type="youtube"
+          data-video-id="niZAJWTI-kg"
+          data-image="https://img.youtube.com/vi/niZAJWTI-kg/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/niZAJWTI-kg/maxresdefault.jpg" alt="Flash Info 45s Format Carré" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Flash Info 45s — Format carré</h3>
+            <p>Format carré 1:1 · réseaux sociaux &amp; mobile</p>
+            <div class="portfolio-tags"><span>#FlashInfo</span><span>#FormatCarré</span><span>#RéseauxSociaux</span><span>#Actualité</span><span>#MobileFirst</span></div>
+          </div>
+        </article>
+
+        <!-- ==========================================
+             GROUPE 4 : CAPSULES DÉCOUVERTE & CHRONIQUES
+             ========================================== -->
+
+        <!-- Capsule Découverte : L'Algérie -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Capsule Découverte — L'Algérie"
+          data-desc="Une exploration visuelle inédite à la découverte de l'Algérie. Entre paysages spectaculaires, patrimoine culturel riche et traditions locales, cette capsule vous emmène au cœur du plus grand pays d'Afrique."
+          data-video-type="youtube"
+          data-video-id="63mUPnscFyg"
+          data-image="https://img.youtube.com/vi/63mUPnscFyg/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/63mUPnscFyg/maxresdefault.jpg" alt="Capsule Découverte - L'Algérie" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Capsule Découverte — L'Algérie</h3>
+            <p>Documentaire · voyage, culture &amp; patrimoine</p>
+            <div class="portfolio-tags"><span>#Découverte</span><span>#Algérie</span><span>#Documentaire</span><span>#Voyage</span><span>#Afrique</span></div>
+          </div>
+        </article>
+
+        <!-- Capsule Découverte : Les Lacs Roses -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Capsule Découverte — Les lacs roses du monde"
+          data-desc="Une exploration visuelle inédite à la rencontre des lacs roses. Du lac Hillier en Australie au lac Retba au Sénégal, cette capsule mêle science, traditions locales et paysages spectaculaires pour percer le mystère de leur couleur éclatante."
+          data-video-type="youtube"
+          data-video-id="wKAaW0P2BbA"
+          data-image="https://img.youtube.com/vi/wKAaW0P2BbA/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/wKAaW0P2BbA/maxresdefault.jpg" alt="Capsule Découverte - Les lacs roses du monde" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Capsule Découverte — Les lacs roses</h3>
+            <p>Documentaire · science, nature &amp; traditions</p>
+            <div class="portfolio-tags"><span>#Découverte</span><span>#Nature</span><span>#LacsRoses</span><span>#Documentaire</span><span>#Sénégal</span><span>#Australie</span></div>
+          </div>
+        </article>
+
+        <!-- Capsule Découverte : Le Grand Bleu -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Capsule Découverte — Le Grand Bleu"
+          data-desc="Une immersion visuelle captivante dans l'univers du Grand Bleu. Entre beauté des fonds marins, mystères de l'océan et sensibilisation à l'environnement, cette capsule vous transporte à la découverte d'un monde fascinant et fragile."
+          data-video-type="youtube"
+          data-video-id="9LXjrEExH8s"
+          data-image="https://img.youtube.com/vi/9LXjrEExH8s/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/9LXjrEExH8s/maxresdefault.jpg" alt="Capsule Découverte - Le Grand Bleu" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Capsule Découverte — Le Grand Bleu</h3>
+            <p>Documentaire · océan, nature &amp; environnement</p>
+            <div class="portfolio-tags"><span>#Découverte</span><span>#LeGrandBleu</span><span>#Océan</span><span>#Documentaire</span><span>#Environnement</span></div>
+          </div>
+        </article>
+
+        <!-- Chronique Ma Saine Quotidienne (Alcool) -->
+        <article class="portfolio-item" data-category="video"
+          data-title="Chronique — Ma Saine Quotidienne (Alcool)"
+          data-desc="Montage et habillage de la chronique « Ma Saine Quotidienne » dédiée à la sensibilisation sur les dangers de l'alcool. Un format court, pédagogique et impactant pour informer le public et encourager des comportements responsables."
+          data-video-type="youtube"
+          data-video-id="eWpxLBc-8CI"
+          data-image="https://img.youtube.com/vi/eWpxLBc-8CI/maxresdefault.jpg">
+          <div class="portfolio-media">
+            <img src="https://img.youtube.com/vi/eWpxLBc-8CI/maxresdefault.jpg" alt="Chronique Ma Saine Quotidienne - Alcool" loading="lazy">
+            <div class="portfolio-overlay"><span class="view-btn">▶ Lire la vidéo</span></div>
+          </div>
+          <div class="portfolio-info">
+            <h3>Chronique — Ma Saine Quotidienne (Alcool)</h3>
+            <p>Chronique santé · prévention &amp; sensibilisation</p>
+            <div class="portfolio-tags"><span>#Santé</span><span>#Prévention</span><span>#MaSaineQuotidienne</span><span>#Chronique</span><span>#Alcool</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Aperçu du projet">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Fermer">×</button>
+    <div class="lightbox-content">
+      <div class="lightbox-media" id="lightboxMedia"></div>
+      <div class="lightbox-info">
+        <h3 id="lightboxTitle"></h3>
+        <p id="lightboxDesc"></p>
+        <a id="lightboxExternal" class="btn btn-outline" target="_blank" rel="noopener" style="margin-top:12px;display:none;">Ouvrir sur la plateforme ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       🎨 CRÉATION GRAPHIQUE (Fichiers WebP optimisés)
+       ============================================================ -->
+  <section class="section" id="graphisme">
+    <div class="container">
+      <h2 class="section-title fade-in">Création graphique</h2>
+      <p class="section-subtitle fade-in">Logos, affiches et visuels pour les réseaux sociaux</p>
+
+      <!-- 1. LOGOS -->
+      <div class="graphisme-category fade-in">
+        <h3>Logos</h3>
+        <div class="graphisme-grid">
+          <div class="graphisme-item" data-title="Logo AMDEYE" data-desc="Création du logo de l'AMDEYE (Coopérative de production agricole). Une identité visuelle forte qui symbolise le soleil levant, la nature et l'autonomisation des femmes." data-image="assets/graphisme/logo_amdeye.webp">
+            <img src="assets/graphisme/logo_amdeye.webp" alt="Logo AMDEYE" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Logo ATFI" data-desc="Création du logo de l'Association Tchadienne des Femmes Informaticiennes (ATFI)." data-image="assets/graphisme/logo_atfi.webp">
+            <img src="assets/graphisme/logo_atfi.webp" alt="Logo ATFI" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Logo La Vision Citoyenne" data-desc="Création du logo de l'Association La Vision Citoyenne." data-image="assets/graphisme/logo_vision_citoyenne.webp">
+            <img src="assets/graphisme/logo_vision_citoyenne.webp" alt="Logo La Vision Citoyenne" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Logo Lac Info" data-desc="Création du logo du média d'information Lac Info." data-image="assets/graphisme/logo_lac_info.webp">
+            <img src="assets/graphisme/logo_lac_info.webp" alt="Logo Lac Info" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Logo Tchad Animation" data-desc="Création du logo de Tchad Animation." data-image="assets/graphisme/logo_tchad_animation.webp">
+            <img src="assets/graphisme/logo_tchad_animation.webp" alt="Logo Tchad Animation" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Logo Alingo" data-desc="Création du logo pour la plateforme e-commerce Alingo." data-image="assets/graphisme/logo_alingo.webp">
+            <img src="assets/graphisme/logo_alingo.webp" alt="Logo Alingo" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Logo Fresh Express" data-desc="Création du logo pour l'entreprise de transit Fresh Express." data-image="assets/graphisme/logo_fresh_express.webp">
+            <img src="assets/graphisme/logo_fresh_express.webp" alt="Logo Fresh Express" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Déclinaison Logo Chif TV Noël" data-desc="Adaptation saisonnière du logo de la chaîne Chif TV à l'occasion des fêtes de fin d'année." data-image="assets/graphisme/logo_chiftv_noel.webp">
+            <img src="assets/graphisme/logo_chiftv_noel.webp" alt="Logo Chif TV Noël" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. AFFICHES & FLYERS -->
+      <div class="graphisme-category fade-in">
+        <h3>Affiches & Flyers</h3>
+        <div class="graphisme-grid">
+          <div class="graphisme-item" data-title="Affiche — Bâtir le Tchad" data-desc="Affiche de sensibilisation pour l'Association La Vision Citoyenne." data-image="assets/graphisme/affiche_vision_citoyenne.webp">
+            <img src="assets/graphisme/affiche_vision_citoyenne.webp" alt="Affiche Vision Citoyenne" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Affiche — Hackathon" data-desc="Flyer pour un hackathon organisé par La Vision Citoyenne." data-image="assets/graphisme/affiche_hackathon_vision.webp">
+            <img src="assets/graphisme/affiche_hackathon_vision.webp" alt="Affiche Hackathon" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. VISUELS & BANNIÈRES -->
+      <div class="graphisme-category fade-in">
+        <h3>Visuels Réseaux Sociaux & Bannières</h3>
+        <div class="graphisme-grid">
+          <div class="graphisme-item" data-title="Bannière web — Lac Info" data-desc="Bannière de présentation pour le média Lac Info." data-image="assets/graphisme/banniere_lac_info.webp">
+            <img src="assets/graphisme/banniere_lac_info.webp" alt="Bannière Lac Info" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Visuel — Chif TV Micro" data-desc="Visuel mettant en scène le micro de la chaîne Chif TV pour un format micro-trottoir." data-image="assets/graphisme/visuel_chiftv_micro.webp">
+            <img src="assets/graphisme/visuel_chiftv_micro.webp" alt="Visuel Micro Chif TV" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Bannière — Abonnez-vous Chif TV" data-desc="Visuel Call-to-action pour les réseaux sociaux de Chif TV." data-image="assets/graphisme/banniere_chiftv_abo.webp">
+            <img src="assets/graphisme/banniere_chiftv_abo.webp" alt="Bannière Abonnement Chif TV" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Infographie — Santé Chif TV" data-desc="Habillage graphique pour un post d'actualité santé (centres de dialyse)." data-image="assets/graphisme/visuel_chiftv_sante.webp">
+            <img src="assets/graphisme/visuel_chiftv_sante.webp" alt="Visuel Santé Chif TV" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Infographie — Météo Lac Info" data-desc="Visuel d'information illustrant la vague de chaleur à N'Djamena." data-image="assets/graphisme/visuel_lac_info_meteo.webp">
+            <img src="assets/graphisme/visuel_lac_info_meteo.webp" alt="Visuel Météo Lac Info" loading="lazy">
+          </div>
+          <div class="graphisme-item" data-title="Visuel — Bon début de semaine" data-desc="Visuel de routine pour les réseaux sociaux de l'Association La Vision Citoyenne." data-image="assets/graphisme/visuel_lundi_vision.webp">
+            <img src="assets/graphisme/visuel_lundi_vision.webp" alt="Visuel Lundi Vision Citoyenne" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 🎓 FORMATIONS & ENGAGEMENTS -->
+  <section class="section" id="formations" style="background: var(--bg-2);">
+    <div class="container">
+      <h2 class="section-title fade-in">Formations &amp; engagements</h2>
+      <p class="section-subtitle fade-in">Mon parcours académique et mes engagements</p>
+
+      <div class="formations-grid fade-in">
+        <div class="formation-card">
+          <div class="formation-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <h3>Master 2 Réseaux et Télécommunications</h3>
+          <p>Formation d'ingénieur en réseaux et systèmes (Bac+5), base de mon travail sur les infrastructures.</p>
+          <span class="formation-badge">Bac+5</span>
+        </div>
+
+        <div class="formation-card">
+          <div class="formation-icon">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h3>Engagements</h3>
+          <p>Engagements bénévoles et citoyens auprès d'organisations internationales.</p>
+          <span class="formation-badge">VNU / OMS · ATFI</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✉️ CONTACT -->
+  <section class="section" id="contact">
+    <div class="container">
+      <h2 class="section-title fade-in">Contact</h2>
+      <p class="section-subtitle fade-in">Un projet de production, un direct à sécuriser, un visuel à concevoir ou un site à créer ? Écrivez-moi.</p>
+
+      <div class="contact-grid">
+        <div class="contact-info fade-in">
+          <h3>Discutons de votre projet</h3>
+          <p>Je réponds généralement sous 24h. N'hésitez pas à me contacter pour un devis ou une simple question.</p>
+
+          <a href="mailto:alibengoningar@gmail.com" class="contact-item">
+            <div class="contact-item-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <strong>Email</strong>
+              <small>alibengoningar@gmail.com</small>
+            </div>
+          </a>
+
+          <a href="tel:+23565299616" class="contact-item">
+            <div class="contact-item-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <strong>Téléphone</strong>
+              <small>(+235) 65 29 96 16 · (+235) 94 43 74 31</small>
+            </div>
+          </a>
+
+          <a href="https://wa.me/23565299616" class="contact-item" target="_blank" rel="noopener">
+            <div class="contact-item-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <div>
+              <strong>WhatsApp</strong>
+              <small>Écrire sur WhatsApp</small>
+            </div>
+          </a>
+
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <strong>Lieu</strong>
+              <small>N'Djamena, Tchad</small>
+            </div>
+          </div>
+        </div>
+
+        <form class="contact-form fade-in" id="contactForm" novalidate>
+          <div class="form-group">
+            <label for="name">Nom complet</label>
+            <input type="text" id="name" name="name" placeholder="Votre nom" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="vous@exemple.com" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Décrivez votre projet..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+            Envoyer le message
+          </button>
+          <p class="form-message" id="formMessage"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🔻 FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-socials">
+        <a href="#" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" aria-label="YouTube" title="YouTube" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+        </a>
+        <a href="https://wa.me/23565299616" aria-label="WhatsApp" title="WhatsApp" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </a>
+        <a href="mailto:alibengoningar@gmail.com" aria-label="Email" title="Email">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+      <p>&copy; <span id="year"></span> Ali Oumar Goningar — Technicien IT, Graphiste &amp; Développeur Web.</p>
+    </div>
+  </footer>
+
+  <!-- Bouton retour en haut -->
+  <a href="#accueil" class="back-to-top" id="backToTop" aria-label="Retour en haut">
+    <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </a>
+
+  <!-- ⚙️ JAVASCRIPT -->
+  <script>
+    /* 1. Header scroll */
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    /* 2. Menu mobile */
+    const burger = document.getElementById('burger');
+    const navLinks = document.getElementById('navLinks');
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        burger.classList.remove('open');
+        navLinks.classList.remove('open');
+      });
+    });
+
+    /* 3. Animation au scroll */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    /* 4. Navigation active au scroll */
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const top = section.offsetTop - 120;
+        if (window.scrollY >= top) current = section.id;
+      });
+      navItems.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+      });
+    });
+
+    /* 5. Filtres portfolio */
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        portfolioItems.forEach(item => {
+          const match = filter === 'all' || item.dataset.category === filter;
+          item.classList.toggle('hide', !match);
+          if (match) {
+            item.style.animation = 'none';
+            void item.offsetWidth;
+            item.style.animation = 'fadeUp .5s ease forwards';
+          }
+        });
+      });
+    });
+
+    /* 6. Lightbox — image / vidéo YouTube / vidéo Facebook */
+    const lightbox         = document.getElementById('lightbox');
+    const lightboxMedia    = document.getElementById('lightboxMedia');
+    const lightboxTitle    = document.getElementById('lightboxTitle');
+    const lightboxDesc     = document.getElementById('lightboxDesc');
+    const lightboxClose    = document.getElementById('lightboxClose');
+    const lightboxExternal = document.getElementById('lightboxExternal');
+
+    function buildVideoEmbed(item) {
+      const type = item.dataset.videoType;
+      if (type === 'youtube') {
+        return `<iframe src="https://www.youtube.com/embed/${item.dataset.videoId}?autoplay=1&rel=0"
+          title="${item.dataset.title}"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>`;
+      }
+      if (type === 'facebook') {
+        const url = encodeURIComponent(item.dataset.videoUrl);
+        return `<iframe src="https://www.facebook.com/plugins/video.php?href=${url}&show_text=false&autoplay=true"
+          title="${item.dataset.title}"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          allowfullscreen></iframe>`;
+      }
+      return null;
+    }
+
+    function openLightbox({ title, desc, mediaHtml, externalHref }) {
+      lightboxTitle.textContent = title;
+      lightboxDesc.textContent  = desc;
+      lightboxMedia.innerHTML   = mediaHtml;
+      if (externalHref) {
+        lightboxExternal.href = externalHref;
+        lightboxExternal.style.display = 'inline-flex';
+      } else {
+        lightboxExternal.style.display = 'none';
+      }
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    /* 6a. Cartes portfolio (vidéos + images) */
+    portfolioItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const videoEmbed = buildVideoEmbed(item);
+        let externalHref = null;
+        if (item.dataset.videoType === 'youtube') {
+          externalHref = `https://www.youtube.com/watch?v=${item.dataset.videoId}`;
+        } else if (item.dataset.videoType === 'facebook') {
+          externalHref = item.dataset.videoUrl;
+        }
+
+        openLightbox({
+          title: item.dataset.title,
+          desc: item.dataset.desc,
+          mediaHtml: videoEmbed || `<img src="${item.dataset.image}" alt="${item.dataset.title}">`,
+          externalHref
+        });
+      });
+    });
+
+    /* 6b. Logos & visuels (section Graphisme) */
+    document.querySelectorAll('.graphisme-item[data-image]').forEach(item => {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => {
+        openLightbox({
+          title: item.dataset.title,
+          desc: item.dataset.desc,
+          mediaHtml: `<img src="${item.dataset.image}" alt="${item.dataset.title}">`,
+          externalHref: null
+        });
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightboxMedia.innerHTML = '';
+      lightboxExternal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+    });
+
+    /* 7. Formulaire */
+    const form = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+      if (!name || !email || !message) {
+        formMessage.textContent = 'Merci de remplir tous les champs.';
+        formMessage.className = 'form-message error';
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        formMessage.textContent = 'Merci de saisir un email valide.';
+        formMessage.className = 'form-message error';
+        return;
+      }
+      formMessage.textContent = 'Merci ! Votre message a bien été envoyé (simulation).';
+      formMessage.className = 'form-message success';
+      form.reset();
+      setTimeout(() => { formMessage.className = 'form-message'; }, 5000);
+    });
+
+    /* 8. Année dynamique */
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* 9. Bouton retour en haut */
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 500);
+    });
+  </script>
+
+</body>
+</html>
