@@ -1919,7 +1919,16 @@
           </div>
         </div>
 
-        <form class="contact-form fade-in" id="contactForm" novalidate>
+        <!-- FORMULAIRE CONNECTÉ À WEB3FORMS -->
+        <form class="contact-form fade-in" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+          
+          <!-- Ta clé Web3Forms -->
+          <input type="hidden" name="access_key" value="2919ac21-c15e-40b2-ad9e-4994a5714739">
+          <!-- Objet de l'email -->
+          <input type="hidden" name="subject" value="Nouveau message depuis ton Portfolio">
+          <!-- Anti-spam -->
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
           <div class="form-group">
             <label for="name">Nom complet</label>
             <input type="text" id="name" name="name" placeholder="Votre nom" required>
@@ -2121,14 +2130,20 @@
       if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
     });
 
-    /* 7. Formulaire */
+    /* 7. Formulaire connecté à Web3Forms */
     const form = document.getElementById('contactForm');
     const formMessage = document.getElementById('formMessage');
-    form.addEventListener('submit', (e) => {
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // Récupération des valeurs
       const name = form.name.value.trim();
       const email = form.email.value.trim();
       const message = form.message.value.trim();
+
+      // Validation basique
       if (!name || !email || !message) {
         formMessage.textContent = 'Merci de remplir tous les champs.';
         formMessage.className = 'form-message error';
@@ -2139,10 +2154,49 @@
         formMessage.className = 'form-message error';
         return;
       }
-      formMessage.textContent = 'Merci ! Votre message a bien été envoyé (simulation).';
-      formMessage.className = 'form-message success';
-      form.reset();
-      setTimeout(() => { formMessage.className = 'form-message'; }, 5000);
+
+      // Effet de chargement sur le bouton
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = 'Envoi en cours...';
+      submitBtn.disabled = true;
+      formMessage.style.display = 'none';
+
+      // Préparation des données
+      const formData = new FormData(form);
+
+      try {
+        // Envoi vers Web3Forms
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Succès
+          formMessage.textContent = 'Merci ! Votre message a bien été envoyé. Je vous répondrai rapidement.';
+          formMessage.className = 'form-message success';
+          form.reset();
+        } else {
+          // Erreur renvoyée par Web3Forms
+          formMessage.textContent = data.message || 'Oups ! Une erreur est survenue.';
+          formMessage.className = 'form-message error';
+        }
+      } catch (error) {
+        // Erreur réseau
+        formMessage.textContent = 'Erreur de connexion. Vérifiez votre réseau.';
+        formMessage.className = 'form-message error';
+      } finally {
+        // On remet le bouton dans son état normal
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+        
+        // On cache le message après 8 secondes
+        setTimeout(() => { 
+          if(formMessage.classList.contains('success')) formMessage.style.display = 'none'; 
+        }, 8000);
+      }
     });
 
     /* 8. Année dynamique */
